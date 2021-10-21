@@ -1,4 +1,4 @@
-package com.school_journal.model;
+package com.school_journal;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
