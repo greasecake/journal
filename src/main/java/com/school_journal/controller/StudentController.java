@@ -4,9 +4,12 @@ import com.school_journal.dao.StudentDao;
 import com.school_journal.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class StudentController {
@@ -14,12 +17,12 @@ public class StudentController {
     private StudentDao studentDao;
 
     @GetMapping("/students")
-    public List<Student> findAll() {
-        return studentDao.findAll();
+    public List<Student> selectAll() {
+        return studentDao.selectAll();
     }
 
-    @GetMapping("/students/${group_id}")
-    public List<Student> findWhereGroup(Long group_id) {
-        return studentDao.findWhereGroup(group_id);
+    @GetMapping(value = "/students", params = "group_id")
+    public List<Student> selectWhereGroupId(@RequestParam Long group_id) {
+        return studentDao.selectWhereGroupId(group_id);
     }
 }

@@ -28,15 +28,15 @@ public class StudentDao {
         }
     }
 
-    public List<Student> findAll() {
+    public List<Student> selectAll() {
         return jdbcTemplate.query(
-                "select first_name || ' ' || last_name from students",
+                "select * from student",
                 new StudentMapper());
     }
 
-    public List<Student> findWhereGroup(Long group_id) {
+    public List<Student> selectWhereGroupId(Long group_id) {
         return jdbcTemplate.query(
-                "select first_name || ' ' || last_name from students where group_id = ?",
+                "select * from student where group_id = ?",
                 new StudentMapper(),
                 group_id);
     }

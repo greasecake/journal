@@ -13,15 +13,15 @@ import javax.sql.DataSource;
 import java.sql.Driver;
 
 @Configuration
-@PropertySource("classpath:jdbc.properties")
+//@PropertySource("classpath:jdbc.properties")
 public class ApplicationConfig {
-    @Value("${driverClassName}")
+    @Value("${spring.datasource.driver-class-name}")
     private String driverClassName;
-    @Value("${url}")
+    @Value("${spring.datasource.url}")
     private String url;
-    @Value("${username}")
+    @Value("${spring.datasource.username}")
     private String username;
-    @Value("${password}")
+    @Value("${spring.datasource.password}")
     private String password;
 
     @Bean
