@@ -3,26 +3,43 @@ package com.school_journal.controller;
 import com.school_journal.dao.StudentDao;
 import com.school_journal.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class StudentController {
+    private final StudentDao studentDao;
+
     @Autowired
-    private StudentDao studentDao;
+    public StudentController(StudentDao studentDao) {
+        this.studentDao = studentDao;
+    }
 
     @GetMapping("/students")
-    public List<Student> selectAll() {
-        return studentDao.selectAll();
+    public List<Student> selectAllStudents() {
+        return studentDao.selectAllStudents();
     }
 
     @GetMapping(value = "/students", params = "group_id")
-    public List<Student> selectWhereGroupId(@RequestParam Long group_id) {
-        return studentDao.selectWhereGroupId(group_id);
+    public List<Student> selectStudentsWhereGroupId(@RequestParam Long group_id) {
+        return studentDao.selectStudentsWhereGroupId(group_id);
+    }
+
+    @GetMapping(value = "/students/{id}")
+    public Student selectStudent(@PathVariable Long id) {
+        return studentDao.selectStudent(id);
+    }
+
+    @PostMapping(value = "/students/add")
+    public Student insertStudent(@RequestBody Student student) {
+        studentDao.insertStudent(student);
+        return student;
+    }
+
+    @PatchMapping(value = "/students/{id}")
+    public Student insertStudent(@RequestBody Student student, @PathVariable Long id) {
+        studentDao.updateStudent(student, id);
+        return student;
     }
 }

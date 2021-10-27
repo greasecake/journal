@@ -31,7 +31,7 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public Long getGroup_id() {
+    public Long getGroupId() {
         return group_id;
     }
 
@@ -39,11 +39,11 @@ public class Student {
         this.group_id = group_id;
     }
 
-    public Boolean getHead() {
+    public Boolean getIsHead() {
         return isHead;
     }
 
-    public void setHead(Boolean head) {
+    public void setIsHead(Boolean head) {
         isHead = head;
     }
 }

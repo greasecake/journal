@@ -12,8 +12,8 @@ create table student (
     id bigint primary key generated always as identity,
     first_name varchar(20) not null,
     last_name varchar(20) not null,
-    group_id bigint references "group"(id),
-    is_head bool
+    group_id bigint references "group"(id) not null,
+    is_head bool default false not null
 );
 
 create table subject (
