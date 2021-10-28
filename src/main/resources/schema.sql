@@ -1,11 +1,16 @@
 create type DAY_OF_WEEK as enum (
-    'MONDAY',
-    'TUESDAY',
-    'WEDNESDAY',
-    'THURSDAY',
-    'FRIDAY',
-    'SATURDAY',
-    'SUNDAY'
+    'Понедельник',
+    'Вторник',
+    'Среда',
+    'Четверг',
+    'Пятница',
+    'Суббота',
+    'Воскресенье'
+);
+
+create table "group" (
+                         id bigint primary key generated always as identity,
+                         name varchar(20) not null
 );
 
 create table student (
@@ -21,21 +26,17 @@ create table subject (
     name varchar(40) not null
 );
 
-create table "group" (
-    id bigint primary key generated always as identity,
-    name varchar(20) not null
-);
-
 create table schedule (
-    day_of_week DAY_OF_WEEK,
-    time time,
-    subject_id bigint references subject(id),
-    group_id bigint references "group"(id),
+    day_of_week DAY_OF_WEEK not null,
+    time time not null,
+    subject_id bigint references subject(id) not null,
+    group_id bigint references "group"(id) not null,
     room_number bigint
 );
 
 create table journal (
-    student_id bigint references student(id),
-    subject_id bigint references subject(id),
+    date date not null,
+    student_id bigint references student(id) not null,
+    subject_id bigint references subject(id) not null,
     grade int not null
 );

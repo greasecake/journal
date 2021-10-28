@@ -1,8 +1,8 @@
-package com.school_journal.dao;
+package com.school_journal.repository;
 
+import com.school_journal.model.Group;
 import com.school_journal.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -11,20 +11,21 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 @Repository
-public class StudentDao {
+public class StudentRepository {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public StudentDao(JdbcTemplate jdbcTemplate) {
+    public StudentRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    RowMapper<Student> StudentMapper = (ResultSet resultSet, int rowNum) -> {
+    RowMapper<Student> studentMapper = (ResultSet resultSet, int rowNum) -> {
         Student student = new Student();
         student.setId(resultSet.getLong("id"));
         student.setFirstName(resultSet.getString("first_name"));
@@ -33,6 +34,22 @@ public class StudentDao {
         student.setIsHead(resultSet.getBoolean("is_head"));
         return student;
     };
+
+    public static class StudentExtractor implements ResultSetExtractor<List<Map<String, String>>> {
+        @Override
+        public List<Map<String, String>> extractData(ResultSet rs) throws SQLException {
+            List<Map<String, String>> list = new ArrayList<>();
+            while (rs.next()) {
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("Имя", rs.getString("first_name"));
+                map.put("Фамилия", rs.getString("last_name"));
+                map.put("Староста", rs.getBoolean("is_head") ? "Да" : "Нет");
+                map.put("Группа", rs.getString("name"));
+                list.add(map);
+            }
+            return list;
+        }
+    }
 
 //    public static class StudentWithDetailExtractor implements ResultSetExtractor<List<Student>> {
 //        @Override
@@ -49,24 +66,38 @@ public class StudentDao {
 //        }
 //    }
 
-    public List<Student> selectAllStudents() {
+    public List<Student> selectAll() {
         String SQL = "select * from student";
         return jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Student.class));
     }
 
-    public List<Student> selectStudentsWhereGroupId(Long group_id) {
+    public List<Map<String, String>> selectAllWithGroupName() {
+        String SQL = "select\n" +
+                "       student.id,\n" +
+                "       first_name,\n" +
+                "       last_name,\n" +
+                "       is_head,\n" +
+                "       group_id,\n" +
+                "       \"name\"\n" +
+                "from student\n" +
+                "join \"group\"\n" +
+                "on student.group_id = \"group\".id";
+        return jdbcTemplate.query(SQL, new StudentExtractor());
+    }
+
+    public List<Student> selectWhereGroupId(Long group_id) {
         String SQL = "select * from student where group_id = ?";
-        return jdbcTemplate.query(SQL, StudentMapper, group_id);
+        return jdbcTemplate.query(SQL, studentMapper, group_id);
     }
 
-    public Student selectStudent(Long id) {
+    public Student selectById(Long id) {
         String SQL = "select * from student where id = ?";
-        return jdbcTemplate.queryForObject(SQL, StudentMapper, id);
+        return jdbcTemplate.queryForObject(SQL, studentMapper, id);
     }
 
-    public int insertStudent(Student student) {
+    public int insert(Student student) {
         String SQL = "insert into student (first_name, last_name, group_id, is_head) values (?, ?, ?, ?)";
-        return jdbcTemplate.update(SQL, student.getFirstName(), student.getLastName(), student.getGroupId(), student.getIsHead());
+        return jdbcTemplate.update(SQL, student.getFirstName(), student.getLastName(), student.getGroup().getId(), student.getIsHead());
     }
 
     public int updateStudent(Student student, Long id) {
@@ -78,6 +109,6 @@ public class StudentDao {
                 "    is_head = coalesce(?, old.is_head) " +
                 "from student old " +
                 "where new.id = ?";
-        return jdbcTemplate.update(SQL, student.getFirstName(), student.getLastName(), student.getGroupId(), student.getIsHead(), id);
+        return jdbcTemplate.update(SQL, student.getFirstName(), student.getLastName(), student.getGroup().getId(), student.getIsHead(), id);
     }
 }

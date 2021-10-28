@@ -1,6 +1,7 @@
 package com.school_journal.model;
 
 import java.sql.Time;
+import java.util.List;
 
 public class Schedule {
     String dayOfWeek;
@@ -8,6 +9,8 @@ public class Schedule {
     Long subjectId;
     Long groupId;
     Integer roomNumber;
+    List<Subject> subjects;
+    List<Group> groups;
 
     public String getDayOfWeek() {
         return dayOfWeek;

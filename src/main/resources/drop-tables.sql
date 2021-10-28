@@ -1,2 +1,2 @@
-drop schema student_journal;
+drop schema student_journal cascade;
 create schema student_journal;
