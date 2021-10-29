@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/students")
 public class StudentController {
     private final StudentRepository studentRepository;
 
@@ -17,30 +18,30 @@ public class StudentController {
         this.studentRepository = studentRepository;
     }
 
-    @GetMapping("/students")
-    public List<Map<String, String>> selectAllStudents() {
-        return studentRepository.selectAllWithGroupName();
+    @GetMapping
+    public List<Student> selectAllStudents() {
+        return studentRepository.selectAll();
     }
 
-    @GetMapping(value = "/students", params = "group_id")
+    @GetMapping(params = "group_id")
     public List<Student> selectStudentsWhereGroupId(@RequestParam Long group_id) {
         return studentRepository.selectWhereGroupId(group_id);
     }
 
-    @GetMapping(value = "/students/{id}")
+    @GetMapping(value = "/{id}")
     public Student selectStudent(@PathVariable Long id) {
         return studentRepository.selectById(id);
     }
 
-    @PostMapping(value = "/students/add")
-    public Student insertStudent(@RequestBody Student student) {
-        studentRepository.insert(student);
+    @PatchMapping(value = "/{id}")
+    public Student insertStudent(@RequestBody Student student, @PathVariable Long id) {
+        studentRepository.updateStudent(student, id);
         return student;
     }
 
-    @PatchMapping(value = "/students/{id}")
-    public Student insertStudent(@RequestBody Student student, @PathVariable Long id) {
-        studentRepository.updateStudent(student, id);
+    @PostMapping(value = "/add")
+    public Student insertStudent(@RequestBody Student student) {
+        studentRepository.insert(student);
         return student;
     }
 }

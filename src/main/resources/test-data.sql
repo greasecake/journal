@@ -1,4 +1,6 @@
-insert into "group" (name)
+set search_path to student_journal;
+
+insert into "group" (group_name)
 values
     ('А'),
     ('Б');
@@ -9,7 +11,7 @@ values
     ('Иван', 'Иванов', true, 2),
     ('Петр', 'Петров', false, 2);
 
-insert into subject (name)
+insert into subject (subject_name)
 values
     ('Математика'),
     ('Физика'),

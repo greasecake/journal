@@ -5,7 +5,6 @@ public class Student {
     private String firstName;
     private String lastName;
     private Group group;
-    private Long groupId;
     private Boolean isHead;
 
     public Long getId() {
@@ -38,14 +37,6 @@ public class Student {
 
     public void setGroup(Group group) {
         this.group = group;
-    }
-
-    public Long getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
     }
 
     public Boolean getIsHead() {
