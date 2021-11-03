@@ -1,6 +1,6 @@
-drop schema student_journal cascade;
-create schema student_journal;
-set search_path to student_journal;
+drop schema if exists school_journal cascade;
+create schema school_journal;
+set search_path to school_journal;
 
 create type DAY_OF_WEEK as enum (
     'Понедельник',

@@ -48,7 +48,7 @@ public class ScheduleRepository {
                 "using (subject_id) " +
                 "join \"group\" " +
                 "using (group_id) " +
-                "order by group_id, day_of_week, time";
+                "order by group_name, day_of_week, time";
         return jdbcTemplate.query(SQL, scheduleMapper);
     }
 
@@ -60,7 +60,7 @@ public class ScheduleRepository {
                 "join \"group\" " +
                 "using (group_id) " +
                 "where group_id " +
-                "order by group_id, day_of_week, time";
+                "order by group_name, day_of_week, time";
         return jdbcTemplate.query(SQL, scheduleMapper, group_id);
     }
 }

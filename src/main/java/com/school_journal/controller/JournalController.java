@@ -21,6 +21,11 @@ public class JournalController {
         this.journalRepository = journalRepository;
     }
 
+    @GetMapping
+    public List<Journal> selectAllGrades() {
+        return journalRepository.selectAllGrades();
+    }
+
     @GetMapping(params = "student_id")
     public List<Journal> selectGradesByStudentId(@RequestParam("student_id") Long studentId) {
         return journalRepository.selectGradesByStudentId(studentId);

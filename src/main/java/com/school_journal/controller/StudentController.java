@@ -14,12 +14,10 @@ import java.util.List;
 @RequestMapping("/students")
 public class StudentController {
     private final StudentRepository studentRepository;
-    private final GroupRepository groupRepository;
 
     @Autowired
-    public StudentController(StudentRepository studentRepository, GroupRepository groupRepository) {
+    public StudentController(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
-        this.groupRepository = groupRepository;
     }
 
     @GetMapping

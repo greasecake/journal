@@ -63,6 +63,20 @@ public class JournalRepository {
         }
     }
 
+
+    public List<Journal> selectAllGrades() {
+        String SQL = "select * " +
+                "from journal " +
+                "join student " +
+                "using (student_id) " +
+                "join subject " +
+                "using (subject_id) " +
+                "join \"group\" " +
+                "using (group_id) " +
+                "order by date, student.last_name, student.first_name, subject_name";
+        return jdbcTemplate.query(SQL, journalMapper);
+    }
+
     public List<Journal> selectGradesByStudentId(Long studentId) {
         String SQL = "select * " +
                 "from journal " +
@@ -72,7 +86,8 @@ public class JournalRepository {
                 "using (subject_id) " +
                 "join \"group\" " +
                 "using (group_id) " +
-                "where student_id = ?";
+                "where student_id = ? " +
+                "order by date, student.last_name, student.first_name, subject_name";
         return jdbcTemplate.query(SQL, journalMapper, studentId);
     }
 

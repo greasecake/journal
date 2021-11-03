@@ -1,4 +1,4 @@
-set search_path to student_journal;
+set search_path to school_journal;
 
 insert into "group" (group_name)
 values

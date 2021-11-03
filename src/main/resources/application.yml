@@ -1,10 +1,10 @@
 spring:
   application:
-    name: student_journal
+    name: school_journal
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=student_journal
-    username: postgres
-    password: 1
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=school_journal
+    username: test
+    password: test
 server:
   port: 9000
