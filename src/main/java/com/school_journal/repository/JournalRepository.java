@@ -1,9 +1,13 @@
 package com.school_journal.repository;
 
+import com.school_journal.model.Group;
+import com.school_journal.model.Journal;
 import com.school_journal.model.Student;
+import com.school_journal.model.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -22,20 +26,29 @@ public class JournalRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static class JournalExtractor implements ResultSetExtractor<List<Map<String, String>>> {
-        @Override
-        public List<Map<String, String>> extractData(ResultSet rs) throws SQLException {
-            List<Map<String, String>> list = new ArrayList<>();
-            while (rs.next()) {
-                Map<String, String> map = new LinkedHashMap<>();
-                map.put("Дата", rs.getDate("date").toString());
-                map.put("Предмет", rs.getString("subject_name"));
-                map.put("Оценка", rs.getString("grade"));
-                list.add(map);
-            }
-            return list;
-        }
-    }
+    private final RowMapper<Journal> journalMapper = (ResultSet rs, int rowNum) -> {
+        Group group = new Group();
+        group.setId(rs.getLong("group_id"));
+        group.setName(rs.getString("group_name"));
+
+        Student student = new Student();
+        student.setId(rs.getLong("student_id"));
+        student.setFirstName(rs.getString("first_name"));
+        student.setLastName(rs.getString("last_name"));
+        student.setIsHead(rs.getBoolean("is_head"));
+        student.setGroup(group);
+
+        Subject subject = new Subject();
+        subject.setId(rs.getLong("subject_id"));
+        subject.setName(rs.getString("subject_name"));
+
+        Journal journal = new Journal();
+        journal.setDate(rs.getDate("date"));
+        journal.setGrade(rs.getInt("grade"));
+        journal.setStudent(student);
+        journal.setSubject(subject);
+        return journal;
+    };
 
     private static class GradesExtractor implements ResultSetExtractor<List<Map<String, String>>> {
         @Override
@@ -50,27 +63,26 @@ public class JournalRepository {
         }
     }
 
-    public List<Map<String, String>> selectGradesByStudentId(Long studentId) {
-        String SQL = "select " +
-                "       date, " +
-                "       subject.name as subject_name, " +
-                "       grade " +
+    public List<Journal> selectGradesByStudentId(Long studentId) {
+        String SQL = "select * " +
                 "from journal " +
                 "join student " +
-                "on journal.student_id = student.id " +
+                "using (student_id) " +
                 "join subject " +
-                "on journal.subject_id = subject.id " +
+                "using (subject_id) " +
+                "join \"group\" " +
+                "using (group_id) " +
                 "where student_id = ?";
-        return jdbcTemplate.query(SQL, new JournalExtractor(), studentId);
+        return jdbcTemplate.query(SQL, journalMapper, studentId);
     }
 
-    public List<Map<String, String>> findBStudents() {
+    public List<Map<String, String>> findGoodStudents() {
         String SQL = "select " +
                 "       first_name || ' ' || last_name as student_name, " +
                 "       array_to_string(array_agg(grade), ', ') as grades " +
                 "from student " +
                 "right join journal " +
-                "on journal.student_id = student.id " +
+                "using (student_id) " +
                 "group by student_id, first_name, last_name " +
                 "having min(grade) > 3";
         return jdbcTemplate.query(SQL, new GradesExtractor());

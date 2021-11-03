@@ -1,24 +1,36 @@
 package com.school_journal.model;
 
+import java.sql.Date;
+
 public class Journal {
-    Long studentId;
-    Long subjectId;
+
+    Date date;
+    Student student;
+    Subject subject;
     Integer grade;
 
-    public Long getStudentId() {
-        return studentId;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
-    public Long getSubjectId() {
-        return subjectId;
+    public Date getDate() {
+        return date;
     }
 
-    public void setSubjectId(Long subjectId) {
-        this.subjectId = subjectId;
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
     public Integer getGrade() {

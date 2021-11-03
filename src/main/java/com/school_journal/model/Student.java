@@ -7,6 +7,15 @@ public class Student {
     private Group group;
     private Boolean isHead;
 
+    public Student() {}
+
+    public Student(String firstName, String lastName, Group group, Boolean isHead) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.group = group;
+        this.isHead = isHead;
+    }
+
     public Long getId() {
         return id;
     }

@@ -4,6 +4,10 @@ public class Group {
     Long id;
     String name;
 
+    public Group() {}
+
+    public Group(String name) { this.name = name; }
+
     public Long getId() {
         return id;
     }

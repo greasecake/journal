@@ -9,9 +9,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.*;
 
 @Repository
@@ -23,20 +23,21 @@ public class StudentRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    RowMapper<Student> studentMapper = (ResultSet rs, int rowNum) -> {
+    private final RowMapper<Student> studentMapper = (ResultSet rs, int rowNum) -> {
+        Group group = new Group();
+        group.setId(rs.getLong("group_id"));
+        group.setName(rs.getString("group_name"));
+
         Student student = new Student();
         student.setId(rs.getLong("student_id"));
         student.setFirstName(rs.getString("first_name"));
         student.setLastName(rs.getString("last_name"));
         student.setIsHead(rs.getBoolean("is_head"));
-
-        Group group = new Group();
-        group.setId(rs.getLong("group_id"));
-        group.setName(rs.getString("group_name"));
         student.setGroup(group);
         return student;
     };
 
+    @Transactional
     public List<Student> selectAll() {
         String SQL = "select * " +
                 "from student " +
@@ -74,7 +75,7 @@ public class StudentRepository {
                 student.getIsHead());
     }
 
-    public int updateStudent(Student student, Long student_id) {
+    public int update(Student student, Long student_id) {
         String SQL = "update student new " +
                 "set " +
                 "    first_name = coalesce(?, old.first_name), " +

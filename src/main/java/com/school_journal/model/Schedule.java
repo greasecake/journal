@@ -6,8 +6,25 @@ import java.util.List;
 public class Schedule {
     String dayOfWeek;
     Time time;
-    Long subjectId;
-    Long groupId;
+    Subject subject;
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    Group group;
     Integer roomNumber;
     List<Subject> subjects;
     List<Group> groups;
@@ -26,22 +43,6 @@ public class Schedule {
 
     public void setTime(Time time) {
         this.time = time;
-    }
-
-    public Long getSubjectId() {
-        return subjectId;
-    }
-
-    public void setSubjectId(Long subjectId) {
-        this.subjectId = subjectId;
-    }
-
-    public Long getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
     }
 
     public Integer getRoomNumber() {

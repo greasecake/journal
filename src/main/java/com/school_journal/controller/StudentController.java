@@ -1,21 +1,25 @@
 package com.school_journal.controller;
 
+import com.school_journal.model.Group;
+import com.school_journal.repository.GroupRepository;
 import com.school_journal.repository.StudentRepository;
 import com.school_journal.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/students")
 public class StudentController {
     private final StudentRepository studentRepository;
+    private final GroupRepository groupRepository;
 
     @Autowired
-    public StudentController(StudentRepository studentRepository) {
+    public StudentController(StudentRepository studentRepository, GroupRepository groupRepository) {
         this.studentRepository = studentRepository;
+        this.groupRepository = groupRepository;
     }
 
     @GetMapping
@@ -35,7 +39,7 @@ public class StudentController {
 
     @PatchMapping(value = "/{id}")
     public Student insertStudent(@RequestBody Student student, @PathVariable Long id) {
-        studentRepository.updateStudent(student, id);
+        studentRepository.update(student, id);
         return student;
     }
 
