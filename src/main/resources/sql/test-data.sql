@@ -18,7 +18,7 @@ values
     ('Химия'),
     ('Русский язык');
 
-insert into journal (date, student_id, subject_id, grade)
+insert into journalEntry (date, student_id, subject_id, grade)
 values
     (now(), 1, 1, 5),
     (now(), 1, 2, 4),
@@ -33,7 +33,7 @@ values
     (now(), 3, 4, 3),
     (now(), 3, 1, 2);
 
-insert into schedule (day_of_week, time, subject_id, group_id, room_number)
+insert into scheduleEntry (day_of_week, time, subject_id, group_id, room_number)
 values
     ('Понедельник', '10:00', 1, 1, 10),
     ('Понедельник', '12:00', 2, 1, 11),

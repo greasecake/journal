@@ -1,17 +1,14 @@
 package com.school_journal.repository;
 
-import com.school_journal.model.Group;
-import com.school_journal.model.Schedule;
-import com.school_journal.model.Subject;
+import com.school_journal.entity.Group;
+import com.school_journal.entity.ScheduleEntry;
+import com.school_journal.entity.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.*;
 
 @Repository
@@ -23,7 +20,7 @@ public class ScheduleRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<Schedule> scheduleMapper = (ResultSet rs, int rowNum) -> {
+    private final RowMapper<ScheduleEntry> scheduleMapper = (ResultSet rs, int rowNum) -> {
         Group group = new Group();
         group.setId(rs.getLong("group_id"));
         group.setName(rs.getString("group_name"));
@@ -32,16 +29,16 @@ public class ScheduleRepository {
         subject.setId(rs.getLong("subject_id"));
         subject.setName(rs.getString("subject_name"));
 
-        Schedule schedule = new Schedule();
-        schedule.setDayOfWeek(rs.getString("day_of_week"));
-        schedule.setTime(rs.getTime("time"));
-        schedule.setRoomNumber(rs.getInt("room_number"));
-        schedule.setSubject(subject);
-        schedule.setGroup(group);
-        return schedule;
+        ScheduleEntry scheduleEntry = new ScheduleEntry();
+        scheduleEntry.setDayOfWeek(rs.getString("day_of_week"));
+        scheduleEntry.setTime(rs.getTime("time"));
+        scheduleEntry.setRoomNumber(rs.getInt("room_number"));
+        scheduleEntry.setSubject(subject);
+        scheduleEntry.setGroup(group);
+        return scheduleEntry;
     };
 
-    public List<Schedule> getSchedule() {
+    public List<ScheduleEntry> getSchedule() {
         String SQL = "select * " +
                 "from schedule " +
                 "join subject " +
@@ -52,7 +49,7 @@ public class ScheduleRepository {
         return jdbcTemplate.query(SQL, scheduleMapper);
     }
 
-    public List<Schedule> getScheduleByGroupId(Long group_id) {
+    public List<ScheduleEntry> getScheduleByGroupId(Long group_id) {
         String SQL = "select * " +
                 "from schedule " +
                 "join subject " +

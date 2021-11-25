@@ -1,6 +1,6 @@
 package com.school_journal.controller;
 
-import com.school_journal.model.Journal;
+import com.school_journal.entity.JournalEntry;
 import com.school_journal.repository.JournalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,12 +22,12 @@ public class JournalController {
     }
 
     @GetMapping
-    public List<Journal> selectAllGrades() {
+    public List<JournalEntry> selectAllGrades() {
         return journalRepository.selectAllGrades();
     }
 
     @GetMapping(params = "student_id")
-    public List<Journal> selectGradesByStudentId(@RequestParam("student_id") Long studentId) {
+    public List<JournalEntry> selectGradesByStudentId(@RequestParam("student_id") Long studentId) {
         return journalRepository.selectGradesByStudentId(studentId);
     }
 

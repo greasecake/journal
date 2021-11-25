@@ -1,12 +1,9 @@
 package com.school_journal.repository;
 
-import com.school_journal.model.Group;
-import com.school_journal.model.Student;
+import com.school_journal.entity.Group;
+import com.school_journal.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

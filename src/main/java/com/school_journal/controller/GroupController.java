@@ -1,6 +1,6 @@
 package com.school_journal.controller;
 
-import com.school_journal.model.Group;
+import com.school_journal.entity.Group;
 import com.school_journal.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,10 +34,13 @@ public class GroupController {
     }
 
     @PostMapping(value = "/add")
-    public Group insertGroup(@RequestBody Group group) {
+    public Group addGroup(@RequestBody Group group) {
         groupRepository.insert(group);
         return group;
     }
 
-
+    @GetMapping("/transaction_test")
+    public String testTransaction() {
+        return groupRepository.recursiveInsert(0);
+    }
 }

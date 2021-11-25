@@ -1,11 +1,8 @@
 package com.school_journal.controller;
 
-import com.school_journal.model.Group;
-import com.school_journal.repository.GroupRepository;
 import com.school_journal.repository.StudentRepository;
-import com.school_journal.model.Student;
+import com.school_journal.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

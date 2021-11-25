@@ -1,9 +1,9 @@
 package com.school_journal.repository;
 
-import com.school_journal.model.Group;
-import com.school_journal.model.Journal;
-import com.school_journal.model.Student;
-import com.school_journal.model.Subject;
+import com.school_journal.entity.Group;
+import com.school_journal.entity.JournalEntry;
+import com.school_journal.entity.Student;
+import com.school_journal.entity.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -26,7 +26,7 @@ public class JournalRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<Journal> journalMapper = (ResultSet rs, int rowNum) -> {
+    private final RowMapper<JournalEntry> journalMapper = (ResultSet rs, int rowNum) -> {
         Group group = new Group();
         group.setId(rs.getLong("group_id"));
         group.setName(rs.getString("group_name"));
@@ -42,12 +42,12 @@ public class JournalRepository {
         subject.setId(rs.getLong("subject_id"));
         subject.setName(rs.getString("subject_name"));
 
-        Journal journal = new Journal();
-        journal.setDate(rs.getDate("date"));
-        journal.setGrade(rs.getInt("grade"));
-        journal.setStudent(student);
-        journal.setSubject(subject);
-        return journal;
+        JournalEntry journalEntry = new JournalEntry();
+        journalEntry.setDate(rs.getDate("date"));
+        journalEntry.setGrade(rs.getInt("grade"));
+        journalEntry.setStudent(student);
+        journalEntry.setSubject(subject);
+        return journalEntry;
     };
 
     private static class GradesExtractor implements ResultSetExtractor<List<Map<String, String>>> {
@@ -64,7 +64,7 @@ public class JournalRepository {
     }
 
 
-    public List<Journal> selectAllGrades() {
+    public List<JournalEntry> selectAllGrades() {
         String SQL = "select * " +
                 "from journal " +
                 "join student " +
@@ -77,7 +77,7 @@ public class JournalRepository {
         return jdbcTemplate.query(SQL, journalMapper);
     }
 
-    public List<Journal> selectGradesByStudentId(Long studentId) {
+    public List<JournalEntry> selectGradesByStudentId(Long studentId) {
         String SQL = "select * " +
                 "from journal " +
                 "join student " +

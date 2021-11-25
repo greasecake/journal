@@ -1,9 +1,7 @@
 package com.school_journal.repository;
 
-import com.school_journal.model.Group;
-import com.school_journal.model.Student;
+import com.school_journal.entity.Group;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -46,5 +44,16 @@ public class GroupRepository {
     public int update(Group group, Long group_id) {
         String SQL = "update \"group\" set group_name = ? where group_id = ?";
         return jdbcTemplate.update(SQL, group.getName(), group_id);
+    }
+
+    @Transactional
+    public String recursiveInsert(int level) {
+        if (level < 5) {
+            recursiveInsert(level + 1);
+            jdbcTemplate.update("insert into \"group\" (group_name) values ('TEST')");
+
+            if (level == 3) throw new RuntimeException("Manual fail");
+        }
+        return "OK";
     }
 }
