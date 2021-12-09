@@ -47,18 +47,6 @@ public class ApplicationConfig {
                 .build();
     }
 
-//    @Bean
-//    public DataSource dataSource() {
-//        try {
-//            EmbeddedDatabaseBuilder dbBuilder = new EmbeddedDatabaseBuilder();
-//            return dbBuilder.setType(EmbeddedDatabaseType.H2)
-//                    .addScripts("classpath:sql/schema.sql", "classpath:sql/test-data.sql").build();
-//        } catch (Exception e) {
-//            logger.error("Embedded datasource cannot be created", e);
-//            return null;
-//        }
-//    }
-
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
@@ -81,8 +69,7 @@ public class ApplicationConfig {
         return hibernateProperties;
     }
 
-
-    @Bean
+    @Bean(name="entityManagerFactory")
     public LocalSessionFactoryBean sessionFactory() throws IOException {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());

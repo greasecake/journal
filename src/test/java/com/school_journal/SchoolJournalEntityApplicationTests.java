@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 @SpringBootTest
-class SchoolJournalEntryApplicationTests {
+class SchoolJournalEntityApplicationTests {
 
     @Test
     void contextLoads() {

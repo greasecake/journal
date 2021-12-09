@@ -1,44 +1,38 @@
 package com.school_journal.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.school_journal.entity.common.AbstractEntity;
+
 import javax.persistence.*;
-import java.sql.Time;
+import java.util.Date;
 
 @Table
 @Entity(name = "schedule")
-public class ScheduleEntry {
-    Integer id;
+public class ScheduleEntity extends AbstractEntity {
     String dayOfWeek;
-    Time time;
-    Subject subject;
-    Group group;
+    Date time;
     Integer roomNumber;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "schedule_entry_id")
-    public Integer getId() {
-        return id;
-    }
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     @ManyToOne
     @JoinColumn(name = "subject_id")
-    public Subject getSubject() {
-        return subject;
-    }
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
+    SubjectEntity subjectEntity;
 
     @ManyToOne
     @JoinColumn(name = "group_id")
-    public Group getGroup() {
-        return group;
+    GroupEntity groupEntity;
+
+    public SubjectEntity getSubject() {
+        return subjectEntity;
     }
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setSubject(SubjectEntity subjectEntity) {
+        this.subjectEntity = subjectEntity;
+    }
+
+    public GroupEntity getGroup() {
+        return groupEntity;
+    }
+    public void setGroup(GroupEntity groupEntity) {
+        this.groupEntity = groupEntity;
     }
 
     @Column(name = "day_of_week")
@@ -51,10 +45,10 @@ public class ScheduleEntry {
 
     @Temporal(TemporalType.TIME)
     @Column(name = "time")
-    public Time getTime() {
+    public Date getTime() {
         return time;
     }
-    public void setTime(Time time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 
