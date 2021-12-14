@@ -3,6 +3,7 @@ package com.school_journal.service.common;
 import com.school_journal.entity.common.AbstractEntity;
 import com.school_journal.repository.common.CommonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,13 @@ public abstract class AbstractService<E extends AbstractEntity, R extends Common
     public List<E> findAll() {
         List<E> entities = new ArrayList<>();
         repository.findAll().forEach(entities::add);
+        return entities;
+    }
+
+    @Override
+    public List<E> findAll(Sort sort) {
+        List<E> entities = new ArrayList<>();
+        repository.findAll(sort).forEach(entities::add);
         return entities;
     }
 
