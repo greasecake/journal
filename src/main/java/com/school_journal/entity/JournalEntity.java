@@ -9,13 +9,7 @@ import java.util.Date;
 @Entity(name = "journal")
 public class JournalEntity extends AbstractEntity {
     Date date;
-
-    @ManyToOne
-    @JoinColumn(name = "student_id")
     StudentEntity studentEntity;
-
-    @ManyToOne
-    @JoinColumn(name = "subject_id")
     SubjectEntity subjectEntity;
     Integer grade;
 
@@ -28,6 +22,8 @@ public class JournalEntity extends AbstractEntity {
         this.date = date;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "student_id")
     public StudentEntity getStudent() {
         return studentEntity;
     }
@@ -35,6 +31,8 @@ public class JournalEntity extends AbstractEntity {
         this.studentEntity = studentEntity;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "subject_id")
     public SubjectEntity getSubject() {
         return subjectEntity;
     }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 public abstract class AbstractController<E extends AbstractEntity, S extends CommonService<E>> implements CommonController<E> {
-    private final S service;
+    public final S service;
 
     @Autowired
     public AbstractController(S service) {
@@ -17,7 +17,7 @@ public abstract class AbstractController<E extends AbstractEntity, S extends Com
     }
 
     @Override
-    @GetMapping
+    @GetMapping(value = "/all")
     public ResponseEntity<List<E>> findAll() {
         return ResponseEntity.ok(service.findAll());
     }

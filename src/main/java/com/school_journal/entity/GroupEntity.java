@@ -1,23 +1,28 @@
 package com.school_journal.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.school_journal.entity.common.AbstractEntity;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Table
-@Entity(name = "\"group\"")
-//@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="groupId")
+@Entity(name = "groups")
 public class GroupEntity extends AbstractEntity {
     String name;
-    Set<StudentEntity> studentEntities = new HashSet<>();
+    List<StudentEntity> students = new ArrayList<>();
 
-    public GroupEntity() {}
-
-    public GroupEntity(String name) { this.name = name; }
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER,
+            mappedBy = "group")
+    public List<StudentEntity> getStudents() {
+        return students;
+    }
+    public void setStudents(List<StudentEntity> studentEntities) {
+        this.students = studentEntities;
+    }
 
     @Column(name = "group_name")
     public String getName() {
@@ -25,21 +30,5 @@ public class GroupEntity extends AbstractEntity {
     }
     public void setName(String name) {
         this.name = name;
-    }
-
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-//    @JsonManagedReference
-    public Set<StudentEntity> getStudents() {
-        return studentEntities;
-    }
-    public void setStudents(Set<StudentEntity> studentEntities) {
-        this.studentEntities = studentEntities;
-    }
-
-    @Override
-    public String toString() {
-        return "Group{" +
-                "name='" + name + '\'' +
-                '}';
     }
 }

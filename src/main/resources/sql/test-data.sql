@@ -1,17 +1,17 @@
 set search_path to school_journal;
 
-insert into "group" (group_name)
+insert into groups (group_name)
 values
     ('А'),
     ('Б');
 
-insert into student (first_name, last_name, is_head, group_id)
+insert into students (first_name, last_name, is_head, group_id)
 values
     ('Василий', 'Пупкин', true, 1),
     ('Иван', 'Иванов', true, 2),
     ('Петр', 'Петров', false, 2);
 
-insert into subject (subject_name)
+insert into subjects (subject_name)
 values
     ('Математика'),
     ('Физика'),

@@ -6,21 +6,10 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Table
-@Entity(name = "subject")
+@Entity(name = "subjects")
 public class SubjectEntity extends AbstractEntity {
-//    Long id;
     String name;
     Set<JournalEntity> journalEntries;
-
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "subject_id")
-//    public Long getId() {
-//        return id;
-//    }
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
 
     @Column(name = "subject_name")
     public String getName() {

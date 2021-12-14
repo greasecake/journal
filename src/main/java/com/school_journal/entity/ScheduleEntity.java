@@ -12,15 +12,11 @@ public class ScheduleEntity extends AbstractEntity {
     String dayOfWeek;
     Date time;
     Integer roomNumber;
+    SubjectEntity subjectEntity;
+    GroupEntity groupEntity;
 
     @ManyToOne
     @JoinColumn(name = "subject_id")
-    SubjectEntity subjectEntity;
-
-    @ManyToOne
-    @JoinColumn(name = "group_id")
-    GroupEntity groupEntity;
-
     public SubjectEntity getSubject() {
         return subjectEntity;
     }
@@ -28,6 +24,8 @@ public class ScheduleEntity extends AbstractEntity {
         this.subjectEntity = subjectEntity;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "group_id")
     public GroupEntity getGroup() {
         return groupEntity;
     }

@@ -1,38 +1,26 @@
 package com.school_journal.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.school_journal.entity.common.AbstractEntity;
 
 import javax.persistence.*;
 
 @Table
-@Entity(name = "student")
-@JsonIgnoreProperties(value= {"groupEntity"})
-//@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+@Entity(name = "students")
 public class StudentEntity extends AbstractEntity {
     private String firstName;
     private String lastName;
     private Boolean isHead;
+    @JsonIgnoreProperties({"students"})
+    private GroupEntity group;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "group_id")
-    private GroupEntity groupEntity;
     public GroupEntity getGroup() {
-        return groupEntity;
+        return group;
     }
     public void setGroup(GroupEntity groupEntity) {
-        this.groupEntity = groupEntity;
-    }
-
-    public StudentEntity() {}
-
-    public StudentEntity(String firstName, String lastName, GroupEntity groupEntity, Boolean isHead) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.groupEntity = groupEntity;
-        this.isHead = isHead;
+        this.group = groupEntity;
     }
 
     @Column(name = "first_name")
@@ -57,13 +45,5 @@ public class StudentEntity extends AbstractEntity {
     }
     public void setIsHead(Boolean head) {
         isHead = head;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
     }
 }
